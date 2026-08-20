@@ -1,0 +1,27 @@
+[
+  {
+    "path": "/repos/acme/widget/commits/abc123/pulls",
+    "status": 200,
+    "body": [
+      {
+        "number": 42,
+        "merged_at": "2026-08-03T12:00:00Z"
+      }
+    ]
+  },
+  {
+    "path": "/repos/acme/widget/commits/dead123/pulls",
+    "status": 200,
+    "body": []
+  },
+  {
+    "path": "/repos/acme/widget/commits/open123/pulls",
+    "status": 200,
+    "body": [
+      {
+        "number": 99,
+        "merged_at": null
+      }
+    ]
+  }
+]

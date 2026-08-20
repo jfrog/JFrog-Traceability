@@ -1,0 +1,58 @@
+[
+  {
+    "path": "/repos/acme/widget/pulls/7",
+    "status": 200,
+    "body": {
+      "number": 7,
+      "merged": true,
+      "merged_at": "2026-07-20T10:00:00Z",
+      "merged_by": {"login": "merger"},
+      "merge_commit_sha": "mergesha",
+      "head": {"sha": "headsha", "ref": "feature"},
+      "base": {"sha": "basesha", "ref": "main"}
+    }
+  },
+  {
+    "path": "/repos/acme/widget/commits/mergesha",
+    "status": 200,
+    "body": {
+      "sha": "mergesha",
+      "parents": [{"sha": "parentsha"}, {"sha": "headsha"}]
+    }
+  },
+  {
+    "path": "/repos/acme/widget/pulls/7/reviews",
+    "query": {"page": "1"},
+    "status": 200,
+    "link": "<https://api.github.com/repos/acme/widget/pulls/7/reviews?per_page=100&page=2>; rel=\"next\"",
+    "body": [
+      {"id": 100, "state": "APPROVED", "user": {"login": "alice"}, "body": "lgtm",
+       "submitted_at": "2026-07-19T09:00:00Z", "commit_id": "headsha"}
+    ]
+  },
+  {
+    "path": "/repos/acme/widget/pulls/7/reviews",
+    "query": {"page": "2"},
+    "status": 200,
+    "body": [
+      {"id": 200, "state": "APPROVED", "user": {"login": "carol"}, "body": "ship it",
+       "submitted_at": "2026-07-19T11:00:00Z", "commit_id": "headsha"}
+    ]
+  },
+  {
+    "path": "/repos/acme/widget/compare/parentsha...mergesha",
+    "status": 200,
+    "body": {
+      "commits": [{"sha": "c1"}, {"sha": "c2"}]
+    }
+  },
+  {
+    "path": "/repos/acme/widget/pulls/7/commits",
+    "query": {"page": "1"},
+    "status": 200,
+    "body": [
+      {"author": {"login": "alice"}, "commit": {"author": {"email": "Alice@Example.com"}}},
+      {"author": {"login": "bob"}, "commit": {"author": {"email": "bob@example.com"}}}
+    ]
+  }
+]

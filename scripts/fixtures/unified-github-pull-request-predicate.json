@@ -1,0 +1,48 @@
+{
+	"predicate_type": "https://jfrog.com/evidence/pull-request-merge/v1",
+	"pull_request_merge": {
+		"all_commits_verified": true,
+		"approvers": [
+			{
+				"approved_sha": "ff1c792ee34d867a484a2375aee0b94ad1d18dd3",
+				"body": "",
+				"email": null,
+				"is_pr_head_approval": true,
+				"login": "asafgabai",
+				"review_id": 4805284196,
+				"submitted_at": "2026-07-29T07:39:13Z"
+			}
+		],
+		"code_committers": [
+			{
+				"email": "47294585+saharbracha@users.noreply.github.com",
+				"login": "SaharBracha"
+			}
+		],
+		"collection": {
+			"collected_at": "2026-07-29T07:39:43.000Z",
+			"workflow_run_url": "https://github.com/SaharBracha/evidence-test/actions/runs/30432460350"
+		},
+		"commit_signatures": [
+			{
+				"reason": "valid",
+				"sha": "ff1c792ee34d867a484a2375aee0b94ad1d18dd3",
+				"signer_login": "SaharBracha",
+				"verified": true
+			}
+		],
+		"commits_on_target_branch": [
+			"ff1c792ee34d867a484a2375aee0b94ad1d18dd3",
+			"dba5a2f652babc35867475e4ba3768efabcc52ce"
+		],
+		"merge": {
+			"merge_commit_sha": "dba5a2f652babc35867475e4ba3768efabcc52ce",
+			"merged_at": "2026-07-29T07:39:20Z",
+			"merged_by": "SaharBracha",
+			"target_base_sha": "012a025bb02e381c6ce13464fa99dbeebfbaac09",
+			"target_branch": "main"
+		}
+	},
+	"schema_version": "1.0.0",
+	"subject_type": "GithubPullRequest"
+}

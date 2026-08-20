@@ -1,0 +1,12 @@
+[
+  {
+    "path": "/repos/acme/widget/pulls/7",
+    "status": 200,
+    "body": {
+      "number": 7,
+      "merged": false,
+      "head": {"sha": "headsha", "ref": "feature"},
+      "base": {"sha": "basesha", "ref": "main"}
+    }
+  }
+]

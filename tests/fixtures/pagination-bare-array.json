@@ -1,0 +1,335 @@
+[
+  {
+    "path": "/repos/acme/widget/collaborators",
+    "query": {
+      "page": "1"
+    },
+    "status": 200,
+    "body": [
+      {
+        "login": "user0"
+      },
+      {
+        "login": "user1"
+      },
+      {
+        "login": "user2"
+      },
+      {
+        "login": "user3"
+      },
+      {
+        "login": "user4"
+      },
+      {
+        "login": "user5"
+      },
+      {
+        "login": "user6"
+      },
+      {
+        "login": "user7"
+      },
+      {
+        "login": "user8"
+      },
+      {
+        "login": "user9"
+      },
+      {
+        "login": "user10"
+      },
+      {
+        "login": "user11"
+      },
+      {
+        "login": "user12"
+      },
+      {
+        "login": "user13"
+      },
+      {
+        "login": "user14"
+      },
+      {
+        "login": "user15"
+      },
+      {
+        "login": "user16"
+      },
+      {
+        "login": "user17"
+      },
+      {
+        "login": "user18"
+      },
+      {
+        "login": "user19"
+      },
+      {
+        "login": "user20"
+      },
+      {
+        "login": "user21"
+      },
+      {
+        "login": "user22"
+      },
+      {
+        "login": "user23"
+      },
+      {
+        "login": "user24"
+      },
+      {
+        "login": "user25"
+      },
+      {
+        "login": "user26"
+      },
+      {
+        "login": "user27"
+      },
+      {
+        "login": "user28"
+      },
+      {
+        "login": "user29"
+      },
+      {
+        "login": "user30"
+      },
+      {
+        "login": "user31"
+      },
+      {
+        "login": "user32"
+      },
+      {
+        "login": "user33"
+      },
+      {
+        "login": "user34"
+      },
+      {
+        "login": "user35"
+      },
+      {
+        "login": "user36"
+      },
+      {
+        "login": "user37"
+      },
+      {
+        "login": "user38"
+      },
+      {
+        "login": "user39"
+      },
+      {
+        "login": "user40"
+      },
+      {
+        "login": "user41"
+      },
+      {
+        "login": "user42"
+      },
+      {
+        "login": "user43"
+      },
+      {
+        "login": "user44"
+      },
+      {
+        "login": "user45"
+      },
+      {
+        "login": "user46"
+      },
+      {
+        "login": "user47"
+      },
+      {
+        "login": "user48"
+      },
+      {
+        "login": "user49"
+      },
+      {
+        "login": "user50"
+      },
+      {
+        "login": "user51"
+      },
+      {
+        "login": "user52"
+      },
+      {
+        "login": "user53"
+      },
+      {
+        "login": "user54"
+      },
+      {
+        "login": "user55"
+      },
+      {
+        "login": "user56"
+      },
+      {
+        "login": "user57"
+      },
+      {
+        "login": "user58"
+      },
+      {
+        "login": "user59"
+      },
+      {
+        "login": "user60"
+      },
+      {
+        "login": "user61"
+      },
+      {
+        "login": "user62"
+      },
+      {
+        "login": "user63"
+      },
+      {
+        "login": "user64"
+      },
+      {
+        "login": "user65"
+      },
+      {
+        "login": "user66"
+      },
+      {
+        "login": "user67"
+      },
+      {
+        "login": "user68"
+      },
+      {
+        "login": "user69"
+      },
+      {
+        "login": "user70"
+      },
+      {
+        "login": "user71"
+      },
+      {
+        "login": "user72"
+      },
+      {
+        "login": "user73"
+      },
+      {
+        "login": "user74"
+      },
+      {
+        "login": "user75"
+      },
+      {
+        "login": "user76"
+      },
+      {
+        "login": "user77"
+      },
+      {
+        "login": "user78"
+      },
+      {
+        "login": "user79"
+      },
+      {
+        "login": "user80"
+      },
+      {
+        "login": "user81"
+      },
+      {
+        "login": "user82"
+      },
+      {
+        "login": "user83"
+      },
+      {
+        "login": "user84"
+      },
+      {
+        "login": "user85"
+      },
+      {
+        "login": "user86"
+      },
+      {
+        "login": "user87"
+      },
+      {
+        "login": "user88"
+      },
+      {
+        "login": "user89"
+      },
+      {
+        "login": "user90"
+      },
+      {
+        "login": "user91"
+      },
+      {
+        "login": "user92"
+      },
+      {
+        "login": "user93"
+      },
+      {
+        "login": "user94"
+      },
+      {
+        "login": "user95"
+      },
+      {
+        "login": "user96"
+      },
+      {
+        "login": "user97"
+      },
+      {
+        "login": "user98"
+      },
+      {
+        "login": "user99"
+      }
+    ]
+  },
+  {
+    "path": "/repos/acme/widget/collaborators",
+    "query": {
+      "page": "2"
+    },
+    "status": 200,
+    "body": [
+      {
+        "login": "user100"
+      },
+      {
+        "login": "user101"
+      },
+      {
+        "login": "user102"
+      },
+      {
+        "login": "user103"
+      },
+      {
+        "login": "user104"
+      }
+    ]
+  }
+]

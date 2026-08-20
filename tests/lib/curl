@@ -1,0 +1,119 @@
+#!/usr/bin/env bash
+# (c) JFrog Ltd. (2026)
+# Test-only stand-in for curl. Instead of making real HTTP requests, it serves
+# canned responses from the JSON routing table pointed to by
+# $MOCK_CURL_FIXTURE: an array of {path, query?, status, body} rules.
+#
+# Only understands the curl invocation shapes the api libs use:
+#   curl -sS -o <file> -w '%{http_code}' --config <auth> -H ... -H ... <url>
+#   curl -sS -D <hdrs> -o <file> -w '%{http_code}' --config <auth> -H ... <url>
+# The bearer token is supplied via the --config file (which this mock ignores),
+# so it never appears in the argument list.
+set -euo pipefail
+
+args=("$@")
+out_file=""
+hdr_file=""
+url=""
+i=0
+while [[ $i -lt ${#args[@]} ]]; do
+  case "${args[$i]}" in
+    -o)
+      i=$((i + 1))
+      out_file="${args[$i]}"
+      ;;
+    -D)
+      i=$((i + 1))
+      hdr_file="${args[$i]}"
+      ;;
+    -H|-w|-K|--config)
+      i=$((i + 1))
+      ;;
+    -sS|-L)
+      ;;
+    http*://*)
+      url="${args[$i]}"
+      ;;
+  esac
+  i=$((i + 1))
+done
+
+if [[ -z "$out_file" || -z "$url" ]]; then
+  echo "mock-curl: could not parse -o/url from args: ${args[*]}" >&2
+  exit 1
+fi
+
+: "${MOCK_CURL_FIXTURE:?MOCK_CURL_FIXTURE must point to a routes JSON file}"
+
+path="${url%%\?*}"
+path="${path#*://}"
+path="/${path#*/}"
+
+query_string=""
+[[ "$url" == *"?"* ]] && query_string="${url#*\?}"
+
+get_query_param() {
+  local key="$1" pair
+  IFS='&' read -ra pairs <<< "$query_string"
+  for pair in "${pairs[@]}"; do
+    if [[ "$pair" == "${key}="* ]]; then
+      printf '%s' "${pair#*=}"
+      return 0
+    fi
+  done
+}
+
+candidates="$(jq -c --arg path "$path" '[.[] | select(.path == $path)]' "$MOCK_CURL_FIXTURE")"
+count="$(printf '%s' "$candidates" | jq 'length')"
+
+selected="null"
+idx=0
+while [[ "$idx" -lt "$count" ]]; do
+  rule="$(printf '%s' "$candidates" | jq -c ".[$idx]")"
+  if [[ "$(printf '%s' "$rule" | jq -r 'has("query")')" != "true" ]]; then
+    selected="$rule"
+    break
+  fi
+  matched="true"
+  while IFS= read -r qk; do
+    [[ -z "$qk" ]] && continue
+    expected="$(printf '%s' "$rule" | jq -r --arg k "$qk" '.query[$k]')"
+    actual="$(get_query_param "$qk")"
+    if [[ "$actual" != "$expected" ]]; then
+      matched="false"
+      break
+    fi
+  done < <(printf '%s' "$rule" | jq -r '.query | keys[]')
+  if [[ "$matched" == "true" ]]; then
+    selected="$rule"
+    break
+  fi
+  idx=$((idx + 1))
+done
+
+if [[ "$selected" == "null" ]]; then
+  status=404
+  body='{"message":"Not Found (mock-curl: no route matched)"}'
+else
+  status="$(printf '%s' "$selected" | jq -r '.status')"
+  if [[ "$(printf '%s' "$selected" | jq -r '.body | type')" == "string" ]]; then
+    body="$(printf '%s' "$selected" | jq -r '.body')"
+  else
+    body="$(printf '%s' "$selected" | jq -c '.body')"
+  fi
+fi
+
+# When response headers are requested (-D) and the matched rule declares a
+# "link" value, emit it as a Link header so the Link-header paginator can be
+# exercised (e.g. multi-page PR reviews/commits).
+if [[ -n "$hdr_file" ]]; then
+  link="$(printf '%s' "$selected" | jq -r 'if type == "object" then (.link // "") else "" end')"
+  if [[ -n "$link" ]]; then
+    printf 'link: %s\r\n' "$link" > "$hdr_file"
+  else
+    : > "$hdr_file"
+  fi
+fi
+
+printf '%s' "$body" > "$out_file"
+printf '%s' "$status"
