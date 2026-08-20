@@ -1,0 +1,31 @@
+JFrog Traceability
+Copyright (c) JFrog Ltd.
+
+This product is licensed under the Apache License, Version 2.0 (see LICENSE).
+
+--------------------------------------------------------------------------------
+Third-party components
+--------------------------------------------------------------------------------
+
+This GitHub Action invokes the following third-party components at build or run
+time. They are not redistributed as part of this repository; they are fetched by
+the workflow. Each is listed with its license, homepage, and copyright holder.
+
+- actions/checkout
+  License:   MIT
+  Homepage:  https://github.com/actions/checkout
+  Copyright: Copyright (c) GitHub, Inc. and contributors
+
+- jfrog/setup-jfrog-cli
+  License:   Apache-2.0
+  Homepage:  https://github.com/jfrog/setup-jfrog-cli
+  Copyright: Copyright (c) JFrog Ltd.
+
+- rhysd/actionlint
+  License:   MIT
+  Homepage:  https://github.com/rhysd/actionlint
+  Copyright: Copyright (c) 2021 rhysd
+
+The action additionally relies on standard runtime tooling expected on the
+GitHub-hosted runner (bash, curl, jq, and the JFrog CLI). These are not
+redistributed here.

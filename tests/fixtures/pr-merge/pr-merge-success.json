@@ -1,0 +1,61 @@
+[
+  {
+    "path": "/repos/acme/widget/pulls/7",
+    "status": 200,
+    "body": {
+      "number": 7,
+      "merged": true,
+      "merged_at": "2026-07-20T10:00:00Z",
+      "merged_by": {"login": "merger"},
+      "merge_commit_sha": "mergesha",
+      "head": {"sha": "headsha", "ref": "feature"},
+      "base": {"sha": "basesha", "ref": "main"}
+    }
+  },
+  {
+    "path": "/repos/acme/widget/commits/mergesha",
+    "status": 200,
+    "body": {
+      "sha": "mergesha",
+      "parents": [{"sha": "parentsha"}, {"sha": "headsha"}]
+    }
+  },
+  {
+    "path": "/repos/acme/widget/pulls/7/reviews",
+    "status": 200,
+    "body": [
+      {"id": 100, "state": "APPROVED", "user": {"login": "alice"}, "body": "lgtm",
+       "submitted_at": "2026-07-19T09:00:00Z", "commit_id": "headsha"},
+      {"id": 101, "state": "APPROVED", "user": {"login": "bob"}, "body": "",
+       "submitted_at": "2026-07-18T09:00:00Z", "commit_id": "oldsha"},
+      {"id": 102, "state": "COMMENTED", "user": {"login": "carol"}, "body": "nit",
+       "submitted_at": "2026-07-18T10:00:00Z", "commit_id": "headsha"}
+    ]
+  },
+  {
+    "path": "/repos/acme/widget/compare/parentsha...mergesha",
+    "status": 200,
+    "body": {
+      "commits": [{"sha": "c1"}, {"sha": "c2"}]
+    }
+  },
+  {
+    "path": "/repos/acme/widget/pulls/7/commits",
+    "query": {"page": "1"},
+    "status": 200,
+    "body": [
+      {"sha": "c1", "author": {"login": "alice"}, "commit": {"author": {"email": "Alice@Example.com"}, "verification": {"verified": true, "reason": "valid"}}},
+      {"sha": "c2", "author": null, "commit": {"author": {"email": "140279+bobby@users.noreply.github.com"}}}
+    ]
+  },
+  {
+    "path": "/users/alice",
+    "status": 200,
+    "body": {"login": "alice", "email": "Alice.Public@Example.com"}
+  },
+  {
+    "path": "/users/bob",
+    "status": 200,
+    "body": {"login": "bob", "email": null}
+  }
+]

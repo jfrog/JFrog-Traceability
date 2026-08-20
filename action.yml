@@ -1,0 +1,68 @@
+name: 'JFrog Traceability'
+description: >-
+  Collect Git evidence for a merged pull request and attach it as signed JFrog
+  evidence keyed by the merge commit sha. Records one github-pull-request
+  evidence covering the merge's approvers, commits, and committers. The
+  consumer workflow controls when it runs.
+author: JFrog
+branding:
+  icon: shield
+  color: green
+
+inputs:
+  jf_url:
+    description: 'JFrog platform host (bare host or URL; normalized to https://<host>/).'
+    required: true
+  oidc_provider_name:
+    description: >-
+      Name of the OIDC integration configured in the JFrog platform. The runner
+      exchanges its GitHub OIDC token for a JFrog access token via this provider,
+      so no long-lived access token is stored. Requires `id-token: write`.
+    required: true
+  evidence_signing_key:
+    description: 'Private key (raw PEM contents) used to sign the evidence.'
+    required: true
+  evidence_key_alias:
+    description: >-
+      Evidence signing key alias registered in the JFrog platform. Set to the
+      alias the public key was registered under.
+    required: true
+
+runs:
+  using: composite
+  steps:
+    # This action does not gate on the event or branch — the consumer workflow
+    # controls when it runs (see the recommended trigger in the README). It
+    # records evidence for the pull request identified by the triggering event.
+    - name: Normalize JFrog URL
+      shell: bash
+      env:
+        JF_URL_INPUT: ${{ inputs.jf_url }}
+      run: |
+        set -euo pipefail
+        host="$JF_URL_INPUT"
+        host="${host#http://}"
+        host="${host#https://}"
+        host="${host%/}"
+        echo "JF_URL=https://${host}/" >> "$GITHUB_ENV"
+
+    - name: Setup JFrog CLI
+      uses: jfrog/setup-jfrog-cli@v4.9.1
+      env:
+        JF_URL: ${{ env.JF_URL }}
+      with:
+        version: latest
+        oidc-provider-name: ${{ inputs.oidc_provider_name }}
+
+    - name: Generate git evidence
+      shell: bash
+      env:
+        AP: ${{ github.action_path }}
+        GITHUB_TOKEN: ${{ github.token }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+        COLLECTOR_VERSION: git-evidence
+        EVIDENCE_SIGNING_KEY: ${{ inputs.evidence_signing_key }}
+        EVIDENCE_KEY_ALIAS: ${{ inputs.evidence_key_alias }}
+      run: |
+        set -euo pipefail
+        bash "$AP/scripts/generate-evidence.sh"

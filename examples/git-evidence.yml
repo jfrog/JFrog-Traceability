@@ -1,0 +1,29 @@
+# Example: create signed JFrog Traceability.
+# Copy this file into your repository's .github/workflows/ directory.
+#
+# Runs only when a pull request is merged into main, and records one
+# github-pull-request evidence for that merge. Add more branches to the
+# `branches` list to cover additional release branches.
+name: JFrog Traceability
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: read
+  id-token: write
+
+jobs:
+  git-evidence:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jfrog/github-evidence@v1
+        with:
+          jf_url: ${{ vars.JF_URL }}
+          oidc_provider_name: ${{ vars.JF_OIDC_PROVIDER }}
+          evidence_signing_key: ${{ secrets.EVIDENCE_KEY }}
+          evidence_key_alias: ${{ vars.EVIDENCE_KEY_ALIAS }}

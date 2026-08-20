@@ -1,0 +1,149 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://jfrog.com/evidence/pull-request-merge/v1",
+  "title": "Github Pull Request Evidence",
+  "description": "The github-pull-request predicate created by the jfrog/git-evidence action. Carries the merged pull request under the pull_request_merge section.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "subject_type",
+    "predicate_type",
+    "pull_request_merge"
+  ],
+  "properties": {
+    "schema_version": {
+      "const": "1.0.0"
+    },
+    "subject_type": {
+      "const": "GithubPullRequest"
+    },
+    "predicate_type": {
+      "const": "https://jfrog.com/evidence/pull-request-merge/v1"
+    },
+    "pull_request_merge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "merge",
+        "approvers",
+        "commits_on_target_branch",
+        "code_committers",
+        "commit_signatures",
+        "all_commits_verified",
+        "collection"
+      ],
+      "properties": {
+        "merge": { "$ref": "#/$defs/merge" },
+        "approvers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/approver" }
+        },
+        "commits_on_target_branch": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "code_committers": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/codeCommitter" }
+        },
+        "commit_signatures": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/commitSignature" }
+        },
+        "all_commits_verified": {
+          "type": "boolean",
+          "description": "True when the PR has at least one commit and every commit's signature was verified by GitHub."
+        },
+        "collection": { "$ref": "#/$defs/prCollection" }
+      }
+    }
+  },
+  "$defs": {
+    "merge": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "merge_commit_sha",
+        "merged_at",
+        "merged_by",
+        "target_branch",
+        "target_base_sha"
+      ],
+      "properties": {
+        "merge_commit_sha": { "type": "string" },
+        "merged_at": { "type": "string" },
+        "merged_by": { "type": "string" },
+        "target_branch": { "type": "string" },
+        "target_base_sha": { "type": "string" }
+      }
+    },
+    "approver": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "review_id",
+        "login",
+        "email",
+        "body",
+        "submitted_at",
+        "approved_sha",
+        "is_pr_head_approval"
+      ],
+      "properties": {
+        "review_id": { "type": "integer" },
+        "login": { "type": ["string", "null"] },
+        "email": {
+          "type": ["string", "null"],
+          "description": "Best-effort approver email: the user's public GitHub profile email when they have published one, else null. GitHub's reviews API does not itself carry an email."
+        },
+        "body": { "type": "string" },
+        "submitted_at": { "type": ["string", "null"] },
+        "approved_sha": { "type": "string" },
+        "is_pr_head_approval": { "type": "boolean" }
+      }
+    },
+    "codeCommitter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["login", "email"],
+      "properties": {
+        "login": { "type": ["string", "null"] },
+        "email": {
+          "type": "string",
+          "description": "Lowercase commit-author email, or an empty string when unavailable."
+        }
+      }
+    },
+    "commitSignature": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["sha", "verified", "reason", "signer_login"],
+      "properties": {
+        "sha": { "type": "string" },
+        "verified": {
+          "type": "boolean",
+          "description": "GitHub's cryptographic-signature verification result for the commit."
+        },
+        "reason": {
+          "type": "string",
+          "description": "GitHub verification reason (e.g. valid, unsigned, unknown_key); \"unsigned\" when no verification object was present."
+        },
+        "signer_login": { "type": ["string", "null"] }
+      }
+    },
+    "prCollection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["collected_at", "workflow_run_url"],
+      "properties": {
+        "collected_at": {
+          "type": "string",
+          "description": "UTC timestamp emitted by `date -u +%Y-%m-%dT%H:%M:%S.000Z`.",
+          "pattern": "^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\\.000Z$"
+        },
+        "workflow_run_url": { "type": "string" }
+      }
+    }
+  }
+}
