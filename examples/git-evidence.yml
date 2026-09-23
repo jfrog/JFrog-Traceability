@@ -21,7 +21,7 @@ jobs:
     if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
-      - uses: jfrog/github-evidence@v1
+      - uses: jfrog/JFrog-Traceability@main
         with:
           jf_url: ${{ vars.JF_URL }}
           oidc_provider_name: ${{ vars.JF_OIDC_PROVIDER }}
